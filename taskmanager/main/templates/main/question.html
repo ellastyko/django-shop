@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}PORTEN - Make question{% endblock %}
+
+{% block content %}
+<section class='main'>
+    <form action="" method="post" id="form-question">
+        <input type="text" name='name' placeholder='Your name' required>
+        <input type="email" name='email' placeholder="E-mail" required>
+        <textarea name="textarea" id="" placeholder="Describe your problem" required ></textarea>
+        <input type="submit" value="Send">
+    </form>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $('form').submit((e) => {
+        e.preventDefault()
+        const token = getCookie('csrftoken');       
+        let data = {
+            csrfmiddlewaretoken: token,
+            name: $('form').find('input[name="name"]').val(),
+            email: $('form').find('input[name="email"]').val(),
+            question:  $('form').find('textarea[name="textarea"]').val()
+        }
+        console.log(data)
+        $.ajax({
+            type: 'POST',
+            url: '{% url "question" %}',
+            dataType: 'json',
+            data: data,
+            success: function(data) {
+                console.log(data)
+                if (data.code == true) {
+                    console.log('succses')
+                }
+            }
+        })
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,227 @@
+@font-face {
+    font-family: 'Post No Bills Jaffna';
+    src: url('../fonts/PostNoBillsJaffna/PostNoBillsJaffna-Bold.woff');
+}
+html { min-width: 620px; }
+:root {
+    --nav-height: 80px;
+    --footer-height: 50px;
+}
+
+/* СМЕНА ЯЗЫКА */
+html[lang='ru'] *[lang='en'],
+html[lang='en'] *[lang='ru'] {
+    display: none;
+}
+
+
+
+
+
+/* NAVBAR */
+nav {
+    height: var(--nav-height);
+    line-height: var(--nav-height);
+    background: #0F0F0F;
+    color: white;
+
+    display: flex;
+    justify-content: space-between;
+}
+nav div a, input {
+    color: white;
+    
+    background: none;
+    outline: none;
+    border: none;
+}
+nav div a span {
+    font: 300 20px "Roboto";
+}
+nav .nav-porten {
+    width: 35%;
+    display: flex;
+    justify-content: center;
+}
+.nav-porten a {
+    font: 700 36px "Post No Bills Jaffna";
+    line-height: var(--nav-height);
+}
+
+nav .nav-buttons {
+    width: 65%;
+    display: flex;
+    justify-content: space-evenly;
+}
+.nav-buttons a, input {
+    display: block;
+    width: 100px;
+    text-align: center;
+    font: 300 20px "Roboto";
+    line-height: var(--nav-height);
+}
+.nav-buttons a:last-child {
+    
+    line-height: calc(var(--nav-height) + 10px);
+}
+
+/* MAIN */
+
+.main {
+    width: 100%;
+    height: calc(100vh - var(--footer-height) - var(--nav-height));
+
+    background: linear-gradient(0deg, rgba(15, 15, 15, 0.5), rgba(15, 15, 15, 0.5)), url('../img/back.png');
+
+    display: flex;
+    justify-content: center;
+}
+
+
+/* CATALOG */
+.catalog-search {
+    width: 20%;
+    min-width: 270px;
+    height: 100%;
+
+    box-sizing: border-box;
+    padding-top: 30px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.catalog-search input {
+
+    width: 150px;
+    height: 30px;
+    display: flex;
+    align-self: center;
+    border-bottom: 1px solid lightgray;
+}
+.catalog-items {
+    box-sizing: border-box;
+    padding: 20px 0 0 0;
+
+    width: 80%;
+    min-width: 370px;
+    height: 100%;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    overflow-y: scroll;
+}
+.item {
+
+    width: 250px;
+    height: 300px;
+
+    margin: 5px;
+    border: 2px solid white;
+    border-radius: 0;
+}
+
+
+/* SCROLLBAR */
+.catalog-items::-webkit-scrollbar {
+    width: 3px;
+}
+.catalog-items::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+.catalog-items::-webkit-scrollbar-thumb {
+    background-color: #111;
+    outline: 1px solid slategrey;
+}
+
+
+/* ABOUT US */
+.about-us {
+    width: 50%;
+    height: 80%;
+
+    align-self: center;
+}
+.about-us h1, p {
+    text-align: center;
+    font-family: 'Roboto', Verdana, Tahoma, sans-serif;
+    color: white;
+}
+.about-us p {
+    font-size: 16px;
+}
+
+
+/* QUESTION */
+#form-question {
+    width: 30%;
+    min-width: 400px;
+    height: 70%;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-self: center;
+
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+form[id="form-question"] * { align-self: center; }
+form[id="form-question"] input:not(input[type='submit']) {
+    height: 30px;
+    width: 200px;
+}
+form[id="form-question"] textarea::placeholder { font: 300 20px "Roboto"; }
+form[id="form-question"] textarea {
+
+    font: 300 18px "Roboto";
+    color: white;
+
+    width: 300px;
+    height: 200px;
+    
+    padding: 5px;
+    box-sizing: content-box;
+    border-radius: 5px;
+    outline: none;
+    background: none;
+    resize: none;
+
+}
+form[id="form-question"] input[type='submit'] {
+    width: 150px;
+    height: 40px;
+    font: 300 26px 'Post No Bills Jaffna';
+    letter-spacing: 3px;
+}
+
+
+
+
+/* FOOTER */
+footer {
+    width: 100%;
+    height: var(--footer-height);
+
+    background: #000;
+
+    display: flex;
+    justify-content: space-around;
+}
+footer div {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+footer div a, span, p {
+
+    font: 300 13px "Roboto";
+    line-height: var(--footer-height);
+    color: white;
+}
+footer svg { 
+    align-self: center;
+    margin-right: 5px;
+}
