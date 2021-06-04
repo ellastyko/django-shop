@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_list_or_404, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.http import JsonResponse
 from django.views import View
 from django.views.decorators.csrf import csrf_protect
@@ -13,38 +14,54 @@ class index(View):
     def get(request):
         return render(request, 'main/main.html')
 
+class redirectOrder(View):
+
+    @staticmethod
+    def get(request):
+        item = Cloth.objects.filter(id=request.GET['cloth_id'])
+        if len(item) == 0:
+            return JsonResponse({ 'code': False })
+        return JsonResponse({ 'code': True })
 
 
 class order(View):
 
     @staticmethod
-    def get(request):
-        return render(request, 'main/product.html')
+    def get(request, id):
+        
+        item = Cloth.objects.filter(id=id)
+        fabrics = Fabric.objects.all()
+        if len(item) == 0:
+            return HttpResponseNotFound('<h1>Page not found</h1>')
+        item = item.first()
+        return render(request, 'main/order.html', {'cloth': item, 'fabrics': fabrics})
 
     # @csrf_protect
     @staticmethod
     def post(request):
 
-        customer = f"{request.POST.get('name')} {request.POST.get('surname')} {request.POST.get('fathername')}"
-        # order = Product(    customer=customer, 
-        #                     clothes = request.POST.get('cloth'),
-        #                     fabrics = request.POST.get('fabric'),
-        #                     executor = request.POST.get('executor'),
+        order = Order(  customer=request.POST.get('customer'), 
+                        cloth_id = Cloth.objects.get(id=request.POST.get('cloth')),
+                        fabric_id = Fabric.objects.get(id=request.POST.get('fabric')),
+                        executor = request.POST.get('executor'),
 
-        #                 fitting_date = (datetime.datetime.now() + datetime.timedelta(days=2)).strftime('%Y-%m-%d'),
-        #                 finish_date = (datetime.datetime.now() + datetime.timedelta(days=5)).strftime('%Y-%m-%d')
-        #             )
+                        fitting_date = (datetime.datetime.now() + datetime.timedelta(days=2)).strftime('%Y-%m-%d'),
+                        finish_date = (datetime.datetime.now() + datetime.timedelta(days=5)).strftime('%Y-%m-%d'),
+
+                        full_price = request.POST.get('price')
+                    )
         
-        # order.save()
-        # print(order.__str__())
-        return JsonResponse({'value':'some response'})
+        order.save()
+        return JsonResponse({'code': True})
 
 
 class catalog(View):
 
     @staticmethod
     def get(request):
-        return render(request, 'main/catalog.html')
+        
+        items = Cloth.objects.all()
+        return render(request, 'main/catalog.html', {'items': items})
 
 
 class about(View):
@@ -52,12 +69,7 @@ class about(View):
     @staticmethod
     def get(request):
         return render(request, 'main/about.html')
-
-class product(View):
-
-    @staticmethod
-    def get(request):
-        return render(request, 'main/product.html')
+    
 
 class question(View):
 

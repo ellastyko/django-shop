@@ -9,43 +9,61 @@
         <input type="text" placeholder="Search model..." required id="search-item"> 
     </div>
     <div class="catalog-items">
-        <div class="item">
-
-        </div>
-        <div class="item">
-            
-        </div>
-        <div class="item">
-            
-        </div>
-        <div class="item">
-
-        </div>
-        <div class="item">
-            
-        </div>
-        <div class="item">
-            
-        </div>
-        <div class="item">
-
-        </div>
-        <div class="item">
-            
-        </div>
-        <div class="item">
-            
-        </div>
+        {% for item in items %}
+        <button class="item" value='{{ item.id }}' data-name="{{ item.cloth_name }}">
+            <img src="{{ item.image }}" alt="">
+            <p>{{ item.cloth_name }}</p>
+            <p>{{ item.price }}$</p>
+        </button>
+        {% endfor %}
     </div>
 </section>
 {% endblock %}
 
 
 {% block scripts %}
-<!-- <script src="{% static './js/catalog.js' %}"></script> -->
+
 <script>
-    $('#search-item').click((e) => {
-        
+    $('#search-item').change((e) => {
+        let your_text = $('#search-item').val()
+        $('.item').each((i, item) => {
+            let text = item.dataset.name;
+            if (your_text.matchAll(text)) {
+                console.log('+')
+            }
+            else {
+                console.log('-')
+            }
+        })
     })
+    $(document).ready((e) => {
+
+
+        document.body.querySelectorAll('.item').forEach((item) => {
+
+            item.addEventListener('click', (e) => {
+
+                let data = { cloth_id: item.value }
+                console.log(data)
+                $.ajax({
+                    type: 'GET',
+                    url: '{% url "redirect-order" %}',
+                    data: data,
+                    success: function(data) {
+                        console.log(data)
+                        if (data.code == true) {
+                            console.log('succses')
+                            document.location.href = `order/${item.value}`
+                        }
+                        else {
+                            console.log('Item unavailable')
+                        }
+                    }
+                })
+            })
+        })
+    })
+        
+    
 </script>
 {% endblock %}

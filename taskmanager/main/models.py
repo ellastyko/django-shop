@@ -22,11 +22,11 @@ class Cloth(models.Model):
     price = models.FloatField(verbose_name="Цена")  
     consumption = models.PositiveSmallIntegerField(verbose_name="Расход")  
 
-    fabric_id = models.ForeignKey(Fabric, on_delete=models.CASCADE) 
+    fabric = models.ForeignKey(Fabric, on_delete=models.CASCADE) 
     
 
     def __str__(self):
-        return f'Модель {self.cloth_name} из ткани №{self.fabric_id}'
+        return f'Модель {self.cloth_name} из ткани №{self.fabric}'
 
 
 # DB WITH ORDERS
@@ -45,8 +45,8 @@ class Order(models.Model):
     )
 
     customer = models.CharField(max_length=255, verbose_name="ФИО Покупателя") 
-    cloth_name = models.ForeignKey(Cloth, on_delete=models.CASCADE)
-    fabric_name = models.ForeignKey(Fabric, on_delete=models.CASCADE)  
+    cloth_id = models.ForeignKey(Cloth, default=1, on_delete=models.SET_DEFAULT)
+    fabric_id = models.ForeignKey(Fabric, default=1, on_delete=models.SET_DEFAULT)  
     executor = models.CharField(max_length=255, choices=EXECUTORS, verbose_name="ФИО Исполнителя заказа")
 
     date = models.DateField(verbose_name="Дата приема заявки", auto_now_add=True)
@@ -58,7 +58,7 @@ class Order(models.Model):
 
 
     def __str__(self):
-        return f'Покупатель {self.customer}. Исполнитель {self.executor}. Модель {self.cloth_name}. Ткань {self.fabric_name}'
+        return f'Покупатель {self.customer}. Исполнитель {self.executor}. ID Модели {self.cloth_id}. ID Ткани {self.fabric_id}'
 
 
 # DB WITH QUESTIONS OF USERS
